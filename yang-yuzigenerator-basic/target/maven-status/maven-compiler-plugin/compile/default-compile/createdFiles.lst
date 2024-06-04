@@ -1,3 +1,9 @@
-com\yupi\generator\StaticGenerator.class
-com\yupi\generator\exercise.class
+com\yupi\generator\file\MainGenerator.class
+com\yupi\cli\command\ConfigCommand.class
+com\yupi\generator\file\DynamicFileGenerator.class
+com\yupi\generator\file\StaticFileGenerator.class
+com\yupi\cli\command\GeneratorCommand.class
 com\yupi\Main.class
+com\yupi\cli\CommandExecutor.class
+com\yupi\cli\command\ListCommand.class
+com\yupi\model\MainTemplateConfig.class
