@@ -6,7 +6,8 @@
   "author": "Victiny",
   "createTime": "2024-6-2",
   "fileConfig": {
-    "inputRootPath": "F:/it/yupi/yang-yuzigenerator/yang-yuzigenerator-demo-project/acm-template-pro",
+    "inputRootPath": ".source/acm-template-pro",
+    "sourceRootPath": "F:/it/yupi/yang-yuzigenerator/yang-yuzigenerator-demo-project/acm-template-pro",
     "outputRootPath": "generated",
     "type": "dir",
     "files": [
@@ -37,20 +38,20 @@
         "type": "boolean",
         "description": "是否生成循环",
         "defaultValue": false,
-        "abbr": "1"
+        "abbr": "l"
       },
       {
         "fieldName": "author",
         "type": "String",
         "description": "作者注释",
-        "defaultValue": "yupi",
+        "defaultValue": "Victiny",
         "abbr": "a"
       },
       {
         "fieldName": "outputText",
         "type": "String",
         "description": "输出信息",
-        "defaultValue": "sum",
+        "defaultValue": "sum = ",
         "abbr": "o"
       }
     ]

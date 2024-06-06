@@ -14,7 +14,7 @@ import java.io.IOException;
 public class MainGenerator {
     public static void doGenerator(Object model) throws TemplateException, IOException {
 
-        String inputRootPath = "F:/it/yupi/yang-yuzigenerator/yang-yuzigenerator-demo-project/acm-template-pro";
+        String inputRootPath = ".source/acm-template-pro";
         String outputRootPath = "generated";
 
         String inputPath;

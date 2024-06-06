@@ -27,6 +27,6 @@ public class DataModel {
     /**
      * 是否循环
      */
-    private boolean loop = true;
+    private boolean loop;
 
 }

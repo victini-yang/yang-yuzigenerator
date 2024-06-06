@@ -15,26 +15,26 @@ import java.util.concurrent.Callable;
  */
 @Data
 @CommandLine.Command(name = "generate", mixinStandardHelpOptions = true)
-public class GeneratorCommand implements Callable {
+public class GeneratorCommand implements Callable<Integer> {
 
 
         /**
         * 是否生成循环
         */
-    @CommandLine.Option(names = {"-1", "--loop"}, arity = "0..1", description = "是否生成循环", interactive = true, echo = true)
+    @CommandLine.Option(names = {"-l", "--loop"}, arity = "0..1", description = "是否生成循环", interactive = true, echo = true)
     private boolean loop = false;
 
         /**
         * 作者注释
         */
     @CommandLine.Option(names = {"-a", "--author"}, arity = "0..1", description = "作者注释", interactive = true, echo = true)
-    private String author = "yupi";
+    private String author = "Victiny";
 
         /**
         * 输出信息
         */
     @CommandLine.Option(names = {"-o", "--outputText"}, arity = "0..1", description = "输出信息", interactive = true, echo = true)
-    private String outputText = "sum";
+    private String outputText = "sum = ";
 
     public Integer call() throws Exception {
         DataModel dataModel = new DataModel();
@@ -43,5 +43,4 @@ public class GeneratorCommand implements Callable {
         MainGenerator.doGenerator(dataModel);
         return 0;
     }
-
 }

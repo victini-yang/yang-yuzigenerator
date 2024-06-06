@@ -15,7 +15,7 @@ import java.util.concurrent.Callable;
  */
 @Data
 @CommandLine.Command(name = "generate", mixinStandardHelpOptions = true)
-public class GeneratorCommand implements Callable {
+public class GeneratorCommand implements Callable<Integer> {
 
 <#list modelConfig.models as modelInfo>
 
@@ -31,9 +31,8 @@ public class GeneratorCommand implements Callable {
     public Integer call() throws Exception {
         DataModel dataModel = new DataModel();
         BeanUtil.copyProperties(this, dataModel);
-        System.out.println("ÅäÖÃÐÅÏ¢£º" + dataModel);
+        System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½" + dataModel);
         MainGenerator.doGenerator(dataModel);
         return 0;
     }
-
 }

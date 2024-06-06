@@ -22,7 +22,7 @@ public class FileGenerator {
         File parentFile = new File(projectPath).getParentFile();
 
         // 构建输入路径：ACM示例代码模板目录
-        String inputPath = new File(parentFile + File.separator + "yang-yuzigenerator-demo-properties" +
+        String inputPath = new File(parentFile + File.separator + "yang-yuzigenerator-demo-project" +
                 File.separator + "acm-template").getAbsolutePath();
         System.out.println(inputPath);
 

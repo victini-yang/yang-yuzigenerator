@@ -15,7 +15,7 @@ import java.util.concurrent.Callable;
  */
 @Data
 @CommandLine.Command(name = "generate", mixinStandardHelpOptions = true)
-public class GeneratorCommand implements Callable {
+public class GeneratorCommand implements Callable<Integer> {
 
     /**
      * 作者
