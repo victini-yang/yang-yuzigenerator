@@ -1,8 +1,8 @@
 package ${basePackage}.cli;
 
 import ${basePackage}.cli.command.ConfigCommand;
-import ${basePackage}.cli.command.GeneratorCommand;
 import ${basePackage}.cli.command.ListCommand;
+import ${basePackage}.cli.command.GeneratorCommand;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 

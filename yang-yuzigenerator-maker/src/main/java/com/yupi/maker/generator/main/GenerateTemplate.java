@@ -63,9 +63,11 @@ public class GenerateTemplate {
         //        生成精简版本的程序
         String distOutputPath = outputPath + "-dist";
 //        -拷贝jar包
-        String targetAbsolutePath = distOutputPath + File.separator + "target";
+//        String targetAbsolutePath = distOutputPath + File.separator + "target";
+        String targetAbsolutePath = outputPath + File.separator + "target";
         FileUtil.mkdir(targetAbsolutePath);
-        String jarAbsolutePath = outputPath + File.separator + jarPath;
+//        String jarAbsolutePath = outputPath + File.separator + jarPath;
+        String jarAbsolutePath = System.getProperty("user.dir") + File.separator + "target";
         FileUtil.copy(jarAbsolutePath, targetAbsolutePath, true);
 //        拷贝脚本文件
         FileUtil.copy(shellOutputFilePath, distOutputPath, true);
@@ -118,6 +120,11 @@ public class GenerateTemplate {
         outputFilePath = outputBaseJavaPackagePath + File.separator + "cli/command/ConfigCommand.java";
         DynamicFileGenerator.doGenerator(inputFilePath, outputFilePath, meta);
 
+        //        generator/MainGenerator.java
+        inputFilePath = inputResourcePath + "templates/java/generator/MainGenerator.java.ftl";
+        outputFilePath = outputBaseJavaPackagePath + File.separator + "generator/MainGenerator.java";
+        DynamicFileGenerator.doGenerator(inputFilePath, outputFilePath, meta);
+
 //        cli.command.GeneratorCommand
         inputFilePath = inputResourcePath + "templates/java/cli/command/GeneratorCommand.java.ftl";
         outputFilePath = outputBaseJavaPackagePath + File.separator + "cli/command/GeneratorCommand.java";
@@ -131,11 +138,6 @@ public class GenerateTemplate {
         //        cli.command.CommandExecutor
         inputFilePath = inputResourcePath + "templates/java/cli/CommandExecutor.java.ftl";
         outputFilePath = outputBaseJavaPackagePath + File.separator + "cli/CommandExecutor.java";
-        DynamicFileGenerator.doGenerator(inputFilePath, outputFilePath, meta);
-
-        //        generator/MainGenerator.java
-        inputFilePath = inputResourcePath + "templates/java/generator/MainGenerator.java.ftl";
-        outputFilePath = outputBaseJavaPackagePath + File.separator + "generator/MainGenerator.java";
         DynamicFileGenerator.doGenerator(inputFilePath, outputFilePath, meta);
 
         //        generator/DynamicGenerator.java

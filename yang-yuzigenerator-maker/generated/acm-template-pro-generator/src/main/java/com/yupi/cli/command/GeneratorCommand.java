@@ -1,46 +1,55 @@
 package com.yupi.cli.command;
-
 import cn.hutool.core.bean.BeanUtil;
 import com.yupi.generator.MainGenerator;
 import com.yupi.model.DataModel;
-import picocli.CommandLine;
 import lombok.Data;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
 import java.util.concurrent.Callable;
 
-/**
- * @Author Victiny
- * @Version 1.0
- * @Date create in 2024-6-2
- */
+
+@Command(name = "generate", description = "生成代码", mixinStandardHelpOptions = true)
 @Data
-@CommandLine.Command(name = "generate", mixinStandardHelpOptions = true)
 public class GeneratorCommand implements Callable<Integer> {
 
+    @Option(names = {"-n", "--needGit"}, arity = "0..1", description = "是否生成.gitignore文件", interactive = true, echo = true)
+    private boolean needGit = true;
 
-        /**
-        * 是否生成循环
-        */
-    @CommandLine.Option(names = {"-l", "--loop"}, arity = "0..1", description = "是否生成循环", interactive = true, echo = true)
+    @Option(names = {"-l", "--loop"}, arity = "0..1", description = "是否生成循环", interactive = true, echo = true)
     private boolean loop = false;
 
-        /**
-        * 作者注释
-        */
-    @CommandLine.Option(names = {"-a", "--author"}, arity = "0..1", description = "作者注释", interactive = true, echo = true)
-    private String author = "Victiny";
+            /**
+            * 核心模板
+            */
+            static DataModel.MainTemplate mainTemplate = new DataModel.MainTemplate();
 
-        /**
-        * 输出信息
-        */
-    @CommandLine.Option(names = {"-o", "--outputText"}, arity = "0..1", description = "输出信息", interactive = true, echo = true)
-    private String outputText = "sum = ";
+            @Command(name = "mainTemplate")
+            @Data
+            public static class MainTemplateCommand implements Runnable {
+        @Option(names = {"-a", "--author"}, arity = "0..1", description = "作者注释", interactive = true, echo = true)
+        private String author = "Victiny";
+        @Option(names = {"-o", "--outputText"}, arity = "0..1", description = "输出信息", interactive = true, echo = true)
+        private String outputText = "sum = ";
+
+            @Override
+            public void run() {
+                mainTemplate.author = author;
+                mainTemplate.outputText = outputText;
+            }
+        }
 
     public Integer call() throws Exception {
-        DataModel dataModel = new DataModel();
-        BeanUtil.copyProperties(this, dataModel);
-        System.out.println("������Ϣ��" + dataModel);
-        MainGenerator.doGenerator(dataModel);
-        return 0;
+        if (loop) {
+            System.out.println("输入核心模板配置：");
+            CommandLine commandLine = new CommandLine(MainTemplateCommand.class);
+            commandLine.execute("--author", "--outputText");
+        }
+    DataModel dataModel = new DataModel();
+    BeanUtil.copyProperties(this, dataModel);
+    dataModel.mainTemplate = mainTemplate;
+    MainGenerator.doGenerator(dataModel);
+    return 0;
     }
 }

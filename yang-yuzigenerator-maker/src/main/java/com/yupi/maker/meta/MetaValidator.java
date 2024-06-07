@@ -11,6 +11,7 @@ import com.yupi.maker.meta.enums.ModelTypeEnum;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author Victiny
@@ -36,6 +37,20 @@ public class MetaValidator {
             return;
         }
         for (Meta.ModelConfigDTO.ModelInfo modelInfo : modelInfoList) {
+//            为group不校验
+            String groupKey = modelInfo.getGroupKey();
+            if (StrUtil.isNotEmpty(groupKey)){
+//                生成中间参数
+                List<Meta.ModelConfigDTO.ModelInfo> subModelInfoList = modelInfo.getModels();
+                String allArgsStr = modelInfo.getModels().stream()
+                        .map(subModelInfo -> String.format("\"--%s\"", subModelInfo.getFieldName()))
+                        .collect(Collectors.joining(", "));
+                modelInfo.setAllArgsStr(allArgsStr);
+                continue;
+            }
+            if (StrUtil.isNotEmpty(groupKey)){
+                continue;
+            }
             // 输出路径默认值
             String fieldName = modelInfo.getFieldName();
             if (StrUtil.isBlank(fieldName)) {
@@ -87,6 +102,12 @@ public class MetaValidator {
         for (Meta.FileConfigDTO.FileInfo fileInfo : fileInfoList) {
             // inputPath: 必填
             String inputPath = fileInfo.getInputPath();
+            String type = fileInfo.getType();
+
+//            类型为group，不校验
+            if (FileTypeEnum.GROUP.getValue().equals(type)){
+                continue;
+            }
             if (StrUtil.isBlank(inputPath)) {
                 throw new MetaException("未填写 inputPath");
             }
@@ -97,7 +118,6 @@ public class MetaValidator {
                 fileInfo.setOutputPath(inputPath);
             }
             // type：默认 inputPath 有文件后缀（如 .java）为 file，否则为 dir
-            String type = fileInfo.getType();
             if (StrUtil.isBlank(type)) {
                 // 无文件后缀
                 if (StrUtil.isBlank(FileUtil.getSuffix(inputPath))) {

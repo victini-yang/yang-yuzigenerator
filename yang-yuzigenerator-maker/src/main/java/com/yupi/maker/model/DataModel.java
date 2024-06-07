@@ -17,16 +17,22 @@ public class DataModel {
     // 3.将循环读取输入改为单次读取(可选代码)
 
     /**
-     * 作者
+     * 是否循环
      */
-    private String author = "Victiny";
+    public boolean loop;
+
+    /**
+     * 是否生成.gitignore文件
+     */
+    public boolean needGit = true;
+
+    /**
+     * 作者注释
+     */
+    public String author;
+
     /**
      * 输出信息
      */
-    private String outputText = "输出信息";
-    /**
-     * 是否循环
-     */
-    private boolean loop;
-
+    public String outputText;
 }

@@ -1,8 +1,8 @@
 package com.yupi.cli;
 
 import com.yupi.cli.command.ConfigCommand;
-import com.yupi.cli.command.GeneratorCommand;
 import com.yupi.cli.command.ListCommand;
+import com.yupi.cli.command.GeneratorCommand;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
