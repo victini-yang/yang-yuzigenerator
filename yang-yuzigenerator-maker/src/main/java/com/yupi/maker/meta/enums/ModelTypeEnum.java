@@ -8,8 +8,8 @@ package com.yupi.maker.meta.enums;
  */
 public enum ModelTypeEnum {
 
-    STRING("动态","string"),
-    BOOLEAN("静态","boolean");
+    STRING("字符串", "String"),
+    BOOLEAN("布尔", "boolean");
 
     private final String text;
     private final String value;

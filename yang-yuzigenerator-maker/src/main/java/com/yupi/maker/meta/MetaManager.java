@@ -15,6 +15,10 @@ public class MetaManager {
 //    volatile确保多线程环境下内存可见性，保证meta一旦被修改了，其他线程也能看见
     private static volatile Meta meta;
 
+    private MetaManager() {
+        // 私有构造函数，防止外部实例化
+    }
+
     public static Meta getMeta() {
         if (meta == null) {
             //a b c

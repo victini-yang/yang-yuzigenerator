@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
  * @Author Victiny
  * @Version 1.0
  * @Date create in 2024/6/5 9:01
+ * 原信息校验
  */
 public class MetaValidator {
 

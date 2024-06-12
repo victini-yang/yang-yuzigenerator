@@ -1,6 +1,5 @@
 package com.yupi.maker.generator.file;
 
-import com.yupi.maker.model.DataModel;
 import freemarker.template.TemplateException;
 
 import java.io.File;
@@ -32,16 +31,8 @@ public class FileGenerator {
 
 
 //        动态代码生成器
-        String DynamicInputPath = projectPath + File.separator + "src/main/resources/templates/MainTemplate.java.ftl";
+        String DynamicInputPath = projectPath + File.separator + "src/main/resources/templates/DataModel.java.ftl";
         String DynamicOutputPath = projectPath + File.separator + "acm-template/src/com/yupi/acm/MainTemplate.java";
         DynamicFileGenerator.doGenerator(DynamicInputPath,DynamicOutputPath,model);
-    }
-
-    public static void main(String[] args) throws TemplateException, IOException {
-        DataModel dataModel = new DataModel();
-        dataModel.setLoop(false);
-        dataModel.setAuthor("Victiny");
-        dataModel.setOutputText("输出信息");
-        doGenerator(dataModel);
     }
 }
