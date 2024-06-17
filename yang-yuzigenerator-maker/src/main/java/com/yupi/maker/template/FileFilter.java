@@ -19,41 +19,39 @@ import java.util.stream.Collectors;
 public class FileFilter {
 
     /**
-     * 对某个文件或者目录进行过滤，返回文件列表
+     * 对某个文件或目录进行过滤，返回文件列表
      * @param filePath
      * @param fileFilterConfigList
      * @return
      */
-    public static List<File> doFilter(String filePath,List<FileFilterConfig> fileFilterConfigList){
-//        根据路径获取所有文件
+    public static List<File> doFilter(String filePath, List<FileFilterConfig> fileFilterConfigList) {
+        // 根据路径获取所有文件
         List<File> fileList = FileUtil.loopFiles(filePath);
-//        遍历
         return fileList.stream()
-                .filter(file -> doSingleFileFilter(fileFilterConfigList , file))
+                .filter(file -> doSingleFileFilter(fileFilterConfigList, file))
                 .collect(Collectors.toList());
     }
 
     /**
      * 单个文件过滤
      * 读取文件过滤配置，通过for循环依次经过所有的过滤器，再根据指定的规则去过滤
-     * @param fileFilterConfigList
-     * @param file
-     * @return
+     * @param fileFilterConfigList 过滤规则
+     * @param file 单个文件
+     * @return 是否保留
      */
     public static boolean doSingleFileFilter(List<FileFilterConfig> fileFilterConfigList, File file) {
-//        根据文件名称和文件内容进行过滤
+        //        根据文件名称和文件内容进行过滤
         String fileName = file.getName();
         String fileContent = FileUtil.readUtf8String(file);
 
-//        所有过滤器校验结束后的结果
+        // 所有过滤器校验结束的结果
         boolean result = true;
-//        如果没有过滤机制就返回true
+//      如果没有过滤机制就返回true
         if (CollUtil.isEmpty(fileFilterConfigList)) {
             return true;
         }
-//        有过滤机制就依次取出
+//            有过滤机制就依次取出,依次取出range、rule、value
         for (FileFilterConfig fileFilterConfig : fileFilterConfigList) {
-//            依次取出range、rule、value
             String range = fileFilterConfig.getRange();
             String rule = fileFilterConfig.getRule();
             String value = fileFilterConfig.getValue();
@@ -76,11 +74,11 @@ public class FileFilter {
             }
 
 //            取出rule、是否为空
-            FileFilterRuleEnum fileFilterRuleEnum = FileFilterRuleEnum.getEnumByValue(rule);
-            if (fileFilterRuleEnum == null) {
+            FileFilterRuleEnum filterRuleEnum = FileFilterRuleEnum.getEnumByValue(rule);
+            if (filterRuleEnum == null) {
                 continue;
             }
-            switch (fileFilterRuleEnum) {
+            switch (filterRuleEnum) {
                 case CONTAINS:
                     result = content.contains(value);
                     break;
@@ -98,13 +96,14 @@ public class FileFilter {
                     break;
                 default:
             }
-//            有一个不满足就返回
+
+            // 有一个不满足，就直接返回
             if (!result) {
                 return false;
             }
         }
 
-//        都满足
+        // 都满足
         return true;
     }
 }

@@ -23,10 +23,14 @@ public class TemplateMakerFileConfig {
     public static class FileInfoConfig {
         private String path;
 
-        private List<FileFilterConfig> fileFilterConfigList;
+        private String condition;
+
+        private List<FileFilterConfig> filterConfigList;
+
     }
 
     @Data
+    @NoArgsConstructor
     public static class FileGroupConfig {
         private String condition;
 

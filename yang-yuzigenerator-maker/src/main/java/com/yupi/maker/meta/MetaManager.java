@@ -1,7 +1,10 @@
 package com.yupi.maker.meta;
 
 import cn.hutool.core.io.resource.ResourceUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+
+import javax.swing.plaf.SeparatorUI;
 
 /**
  * @Author Victiny
@@ -19,7 +22,7 @@ public class MetaManager {
         // 私有构造函数，防止外部实例化
     }
 
-    public static Meta getMeta() {
+    public static Meta getMetaObject() {
         if (meta == null) {
             //a b c
             synchronized (MetaManager.class) {
@@ -35,9 +38,17 @@ public class MetaManager {
 
     private static Meta initMeta(){
         //        读取json文件
-        String metaJson = ResourceUtil.readUtf8Str("meta.json");
+//        String metaJson = ResourceUtil.readUtf8Str("meta.json");
+        String metaJson = ResourceUtil.readUtf8Str("springboot-init-meta.json");
+        System.out.println(metaJson);
 //        转成对象
         Meta newMeta = JSONUtil.toBean(metaJson, Meta.class);
+        String jsonStr = JSONUtil.toJsonStr(newMeta);
+//        替换
+        jsonStr = jsonStr.replace("\\\\","/");
+//        转成对象
+        newMeta = JSONUtil.toBean(jsonStr, Meta.class);
+
 //        校验处理默认值
         MetaValidator.doValidAndFill(newMeta);
         return newMeta;

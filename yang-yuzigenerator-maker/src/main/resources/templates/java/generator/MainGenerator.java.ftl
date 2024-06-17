@@ -10,20 +10,22 @@ import java.io.IOException;
 ${indent}inputPath = new File(inputRootPath, "${fileInfo.inputPath}").getAbsolutePath();
 ${indent}outputPath = new File(outputRootPath, "${fileInfo.outputPath}").getAbsolutePath();
 <#if fileInfo.generateType == "static">
+// 添加日志打印路径
+System.out.println("Generated Input Path: " + inputPath);
 ${indent}StaticGenerator.copyFilesByHutool(inputPath, outputPath);
 <#else>
-${indent}DynamicGenerator.doGenerator(inputPath, outputPath, model);
+${indent}DynamicGenerator.doGenerate(inputPath, outputPath, model);
 </#if>
 </#macro>
 
 /**
-* @Author ${author}
-* @Version 1.0
-* @Date create in ${createTime}
-* 动静结合
-*/
+ * @Author ${author}
+ * @Version 1.0
+ * @Date create in ${createTime}
+ * 动静结合
+ */
 public class MainGenerator {
-    public static void doGenerator(DataModel model) throws TemplateException, IOException {
+    public static void doGenerate(DataModel model) throws TemplateException, IOException {
 
         String inputRootPath = "${fileConfig.inputRootPath}";
         String outputRootPath = "${fileConfig.outputRootPath}";
@@ -49,7 +51,7 @@ public class MainGenerator {
     <#if fileInfo.condition??>
     if(${fileInfo.condition}){
     <#list fileInfo.files as fileInfo>
-    <@generateFile indent="                " fileInfo=fileInfo />
+    <@generateFile indent="        " fileInfo=fileInfo />
     </#list>
     }
     <#else>
@@ -60,7 +62,7 @@ public class MainGenerator {
     <#else>
     <#if fileInfo.condition??>
     if(${fileInfo.condition}){
-    <@generateFile indent="                " fileInfo=fileInfo />
+    <@generateFile indent="        "  fileInfo=fileInfo />
     }
     <#else>
     <@generateFile indent="        " fileInfo=fileInfo />

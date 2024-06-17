@@ -21,8 +21,8 @@ public class FileGenerator {
         File parentFile = new File(projectPath).getParentFile();
 
         // 构建输入路径：ACM示例代码模板目录
-        String inputPath = new File(parentFile + File.separator + "yang-yuzigenerator-demo-project" +
-                File.separator + "acm-template").getAbsolutePath();
+        String inputPath = new File(parentFile  + "/yang-yuzigenerator-demo-project" +
+                "/acm-template").getAbsolutePath();
         System.out.println(inputPath);
 
         // 设置输出路径为项目根目录的父目录
@@ -31,8 +31,8 @@ public class FileGenerator {
 
 
 //        动态代码生成器
-        String DynamicInputPath = projectPath + File.separator + "src/main/resources/templates/DataModel.java.ftl";
-        String DynamicOutputPath = projectPath + File.separator + "acm-template/src/com/yupi/acm/MainTemplate.java";
+        String DynamicInputPath = projectPath + "/src/main/resources/templates/DataModel.java.ftl";
+        String DynamicOutputPath = projectPath + "/acm-template/src/com/yupi/acm/MainTemplate.java";
         DynamicFileGenerator.doGenerator(DynamicInputPath,DynamicOutputPath,model);
     }
 }

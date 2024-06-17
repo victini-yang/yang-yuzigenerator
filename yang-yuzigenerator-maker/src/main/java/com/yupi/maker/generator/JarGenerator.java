@@ -1,6 +1,7 @@
 package com.yupi.maker.generator;
 
 import java.io.*;
+import java.util.Map;
 
 /**
  * @Author Victiny
@@ -19,7 +20,9 @@ public class JarGenerator {
 
         // 这里一定要拆分！
         ProcessBuilder processBuilder = new ProcessBuilder(mavenCommand.split(" "));
-        processBuilder.directory(new File(projectDir));
+        processBuilder.directory(new File(projectDir.replace("\\","/")));
+        Map<String, String> environment = processBuilder.environment();
+        System.out.println("environment= " + environment);
 
         // 启动进程
         Process process = processBuilder.start();

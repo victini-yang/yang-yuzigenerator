@@ -19,6 +19,7 @@ public class MainGenerator {
         String inputRootPath = ".source/acm-template-pro";
         String outputRootPath = "generated";
 
+
         String inputPath;
         String outputPath;
 

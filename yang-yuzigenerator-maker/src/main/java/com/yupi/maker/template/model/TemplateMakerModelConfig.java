@@ -33,6 +33,7 @@ public class TemplateMakerModelConfig {
 
         // 用于替换哪些文本
         private String replaceText;
+
     }
 
     @Data
@@ -43,6 +44,10 @@ public class TemplateMakerModelConfig {
         private String groupKey;
 
         private String groupName;
+
+        private String type;
+
+        private String description;
 
     }
 }

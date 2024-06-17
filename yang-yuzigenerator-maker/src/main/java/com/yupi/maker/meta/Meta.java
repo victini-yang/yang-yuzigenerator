@@ -21,15 +21,15 @@ public class Meta {
     private String version;
     private String author;
     private String createTime;
-    private FileConfigDTO fileConfig;
-    private ModelConfigDTO modelConfig;
+    private FileConfig fileConfig;
+    private ModelConfig modelConfig;
 
     @NoArgsConstructor
     @Data
-    public static class FileConfigDTO {
+    public static class FileConfig {
         private String inputRootPath;
-        private String sourceRootPath;
         private String outputRootPath;
+        private String sourceRootPath;
         private String type;
         private List<FileInfo> files;
 
@@ -49,7 +49,7 @@ public class Meta {
 
     @NoArgsConstructor
     @Data
-    public static class ModelConfigDTO {
+    public static class ModelConfig {
         private List<ModelInfo> models;
 
         @NoArgsConstructor
@@ -65,7 +65,8 @@ public class Meta {
             private List<ModelInfo> models;
             private String condition;
 
-//            中间参数，该分组下所有参数拼接字符串
+            // 中间参数
+            // 该分组下所有参数拼接字符串
             private String allArgsStr;
         }
     }

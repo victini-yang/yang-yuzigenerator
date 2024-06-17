@@ -28,21 +28,21 @@ public class MetaValidator {
     }
 
     public static void validAndFillModelConfig(Meta meta) {
-        Meta.ModelConfigDTO modelConfig = meta.getModelConfig();
+        Meta.ModelConfig modelConfig = meta.getModelConfig();
         if (modelConfig == null) {
             return;
         }
         // modelConfig 默认值
-        List<Meta.ModelConfigDTO.ModelInfo> modelInfoList = modelConfig.getModels();
+        List<Meta.ModelConfig.ModelInfo> modelInfoList = modelConfig.getModels();
         if (!CollectionUtil.isNotEmpty(modelInfoList)) {
             return;
         }
-        for (Meta.ModelConfigDTO.ModelInfo modelInfo : modelInfoList) {
-//            为group不校验
+        for (Meta.ModelConfig.ModelInfo modelInfo : modelInfoList) {
+            // 为 group，不校验
             String groupKey = modelInfo.getGroupKey();
-            if (StrUtil.isNotEmpty(groupKey)){
-//                生成中间参数
-                List<Meta.ModelConfigDTO.ModelInfo> subModelInfoList = modelInfo.getModels();
+            if (StrUtil.isNotEmpty(groupKey)) {
+                // 生成中间参数
+                List<Meta.ModelConfig.ModelInfo> subModelInfoList = modelInfo.getModels();
                 String allArgsStr = modelInfo.getModels().stream()
                         .map(subModelInfo -> String.format("\"--%s\"", subModelInfo.getFieldName()))
                         .collect(Collectors.joining(", "));
@@ -67,7 +67,7 @@ public class MetaValidator {
 
     public static void validAndFillFileConfig(Meta meta) {
         // fileConfig 默认值
-        Meta.FileConfigDTO fileConfig = meta.getFileConfig();
+        Meta.FileConfig fileConfig = meta.getFileConfig();
         if (fileConfig == null) {
             return;
         }
@@ -78,7 +78,7 @@ public class MetaValidator {
         }
         // inputRootPath：.source + sourceRootPath 的最后一个层级路径
         String inputRootPath = fileConfig.getInputRootPath();
-        String defaultInputRootPath = ".source" + System.getProperty("file.separator") +
+        String defaultInputRootPath = ".source/" +
                 FileUtil.getLastPathEle(Paths.get(sourceRootPath)).getFileName().toString();
         if (StrUtil.isEmpty(inputRootPath)) {
             fileConfig.setInputRootPath(defaultInputRootPath);
@@ -96,17 +96,21 @@ public class MetaValidator {
         }
 
         // fileInfo 默认值
-        List<Meta.FileConfigDTO.FileInfo> fileInfoList = fileConfig.getFiles();
+        List<Meta.FileConfig.FileInfo> fileInfoList = fileConfig.getFiles();
         if (!CollectionUtil.isNotEmpty(fileInfoList)) {
             return;
         }
-        for (Meta.FileConfigDTO.FileInfo fileInfo : fileInfoList) {
+        for (Meta.FileConfig.FileInfo fileInfo : fileInfoList) {
             // inputPath: 必填
             String inputPath = fileInfo.getInputPath();
+            if (StrUtil.isNotEmpty(inputPath)){
+                inputPath = inputPath.replace("\\","/");
+                fileInfo.setInputPath(inputPath);
+            }
             String type = fileInfo.getType();
 
-//            类型为group，不校验
-            if (FileTypeEnum.GROUP.getValue().equals(type)){
+            // 类型为 group，不校验
+            if (FileTypeEnum.GROUP.getValue().equals(type)) {
                 continue;
             }
             if (StrUtil.isBlank(inputPath)) {
@@ -115,8 +119,9 @@ public class MetaValidator {
 
             // outputPath: 默认等于 inputPath
             String outputPath = fileInfo.getOutputPath();
-            if (StrUtil.isEmpty(outputPath)) {
-                fileInfo.setOutputPath(inputPath);
+            if (StrUtil.isNotEmpty(outputPath)) {
+                outputPath = outputPath.replace("\\","/");
+                fileInfo.setOutputPath(outputPath);
             }
             // type：默认 inputPath 有文件后缀（如 .java）为 file，否则为 dir
             if (StrUtil.isBlank(type)) {
