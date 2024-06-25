@@ -19,7 +19,7 @@ declare namespace API {
 
   type BaseResponseLong_ = {
     code?: number;
-    data?: number;
+    data?: string;
     message?: string;
   };
 
@@ -66,7 +66,12 @@ declare namespace API {
   };
 
   type DeleteRequest = {
-    id?: number;
+    id?: string;
+  };
+
+  type downloadGeneratorByIdUsingGETParams = {
+    /** id */
+    id?: string;
   };
 
   type FileConfig = {
@@ -95,7 +100,7 @@ declare namespace API {
     description?: string;
     distPath?: string;
     fileConfig?: string;
-    id?: number;
+    id?: string;
     isDelete?: number;
     modelConfig?: string;
     name?: string;
@@ -103,7 +108,7 @@ declare namespace API {
     status?: number;
     tags?: string;
     updateTime?: string;
-    userId?: number;
+    userId?: string;
     version?: string;
   };
 
@@ -127,7 +132,7 @@ declare namespace API {
     description?: string;
     distPath?: string;
     fileConfig?: FileConfig;
-    id?: number;
+    id?: string;
     modelConfig?: ModelConfig;
     name?: string;
     picture?: string;
@@ -141,9 +146,9 @@ declare namespace API {
     current?: number;
     description?: string;
     distPath?: string;
-    id?: number;
+    id?: string;
     name?: string;
-    notId?: number;
+    notId?: string;
     orTags?: string[];
     pageSize?: number;
     searchText?: string;
@@ -151,7 +156,7 @@ declare namespace API {
     sortOrder?: string;
     status?: number;
     tags?: string[];
-    userId?: number;
+    userId?: string;
     version?: string;
   };
 
@@ -161,7 +166,7 @@ declare namespace API {
     description?: string;
     distPath?: string;
     fileConfig?: FileConfig;
-    id?: number;
+    id?: string;
     modelConfig?: ModelConfig;
     name?: string;
     picture?: string;
@@ -177,7 +182,7 @@ declare namespace API {
     description?: string;
     distPath?: string;
     fileConfig?: FileConfig;
-    id?: number;
+    id?: string;
     modelConfig?: ModelConfig;
     name?: string;
     picture?: string;
@@ -185,111 +190,33 @@ declare namespace API {
     tags?: string[];
     updateTime?: string;
     user?: UserVO;
-    userId?: number;
+    userId?: string;
     version?: string;
   };
 
   type getGeneratorVOByIdUsingGETParams = {
     /** id */
-    id?: number;
+    id?: string;
   };
 
   type getUserByIdUsingGETParams = {
     /** id */
-    id?: number;
+    id?: string;
   };
 
   type getUserVOByIdUsingGETParams = {
     /** id */
-    id?: number;
+    id?: string;
   };
 
   type LoginUserVO = {
     createTime?: string;
-    id?: number;
+    id?: string;
     updateTime?: string;
     userAvatar?: string;
     userName?: string;
     userProfile?: string;
     userRole?: string;
-  };
-
-  type ModelAndView = {
-    empty?: boolean;
-    model?: Record<string, any>;
-    modelMap?: Record<string, any>;
-    reference?: boolean;
-    status?:
-      | 'CONTINUE'
-      | 'SWITCHING_PROTOCOLS'
-      | 'PROCESSING'
-      | 'CHECKPOINT'
-      | 'OK'
-      | 'CREATED'
-      | 'ACCEPTED'
-      | 'NON_AUTHORITATIVE_INFORMATION'
-      | 'NO_CONTENT'
-      | 'RESET_CONTENT'
-      | 'PARTIAL_CONTENT'
-      | 'MULTI_STATUS'
-      | 'ALREADY_REPORTED'
-      | 'IM_USED'
-      | 'MULTIPLE_CHOICES'
-      | 'MOVED_PERMANENTLY'
-      | 'FOUND'
-      | 'MOVED_TEMPORARILY'
-      | 'SEE_OTHER'
-      | 'NOT_MODIFIED'
-      | 'USE_PROXY'
-      | 'TEMPORARY_REDIRECT'
-      | 'PERMANENT_REDIRECT'
-      | 'BAD_REQUEST'
-      | 'UNAUTHORIZED'
-      | 'PAYMENT_REQUIRED'
-      | 'FORBIDDEN'
-      | 'NOT_FOUND'
-      | 'METHOD_NOT_ALLOWED'
-      | 'NOT_ACCEPTABLE'
-      | 'PROXY_AUTHENTICATION_REQUIRED'
-      | 'REQUEST_TIMEOUT'
-      | 'CONFLICT'
-      | 'GONE'
-      | 'LENGTH_REQUIRED'
-      | 'PRECONDITION_FAILED'
-      | 'PAYLOAD_TOO_LARGE'
-      | 'REQUEST_ENTITY_TOO_LARGE'
-      | 'URI_TOO_LONG'
-      | 'REQUEST_URI_TOO_LONG'
-      | 'UNSUPPORTED_MEDIA_TYPE'
-      | 'REQUESTED_RANGE_NOT_SATISFIABLE'
-      | 'EXPECTATION_FAILED'
-      | 'I_AM_A_TEAPOT'
-      | 'INSUFFICIENT_SPACE_ON_RESOURCE'
-      | 'METHOD_FAILURE'
-      | 'DESTINATION_LOCKED'
-      | 'UNPROCESSABLE_ENTITY'
-      | 'LOCKED'
-      | 'FAILED_DEPENDENCY'
-      | 'TOO_EARLY'
-      | 'UPGRADE_REQUIRED'
-      | 'PRECONDITION_REQUIRED'
-      | 'TOO_MANY_REQUESTS'
-      | 'REQUEST_HEADER_FIELDS_TOO_LARGE'
-      | 'UNAVAILABLE_FOR_LEGAL_REASONS'
-      | 'INTERNAL_SERVER_ERROR'
-      | 'NOT_IMPLEMENTED'
-      | 'BAD_GATEWAY'
-      | 'SERVICE_UNAVAILABLE'
-      | 'GATEWAY_TIMEOUT'
-      | 'HTTP_VERSION_NOT_SUPPORTED'
-      | 'VARIANT_ALSO_NEGOTIATES'
-      | 'INSUFFICIENT_STORAGE'
-      | 'LOOP_DETECTED'
-      | 'BANDWIDTH_LIMIT_EXCEEDED'
-      | 'NOT_EXTENDED'
-      | 'NETWORK_AUTHENTICATION_REQUIRED';
-    view?: View;
-    viewName?: string;
   };
 
   type ModelConfig = {
@@ -316,54 +243,59 @@ declare namespace API {
 
   type PageGenerator_ = {
     countId?: string;
-    current?: number;
-    maxLimit?: number;
+    current?: string;
+    maxLimit?: string;
     optimizeCountSql?: boolean;
     orders?: OrderItem[];
-    pages?: number;
+    pages?: string;
     records?: Generator[];
     searchCount?: boolean;
-    size?: number;
-    total?: number;
+    size?: string;
+    total?: string;
   };
 
   type PageGeneratorVO_ = {
     countId?: string;
-    current?: number;
-    maxLimit?: number;
+    current?: string;
+    maxLimit?: string;
     optimizeCountSql?: boolean;
     orders?: OrderItem[];
-    pages?: number;
+    pages?: string;
     records?: GeneratorVO[];
     searchCount?: boolean;
-    size?: number;
-    total?: number;
+    size?: string;
+    total?: string;
   };
 
   type PageUser_ = {
     countId?: string;
-    current?: number;
-    maxLimit?: number;
+    current?: string;
+    maxLimit?: string;
     optimizeCountSql?: boolean;
     orders?: OrderItem[];
-    pages?: number;
+    pages?: string;
     records?: User[];
     searchCount?: boolean;
-    size?: number;
-    total?: number;
+    size?: string;
+    total?: string;
   };
 
   type PageUserVO_ = {
     countId?: string;
-    current?: number;
-    maxLimit?: number;
+    current?: string;
+    maxLimit?: string;
     optimizeCountSql?: boolean;
     orders?: OrderItem[];
-    pages?: number;
+    pages?: string;
     records?: UserVO[];
     searchCount?: boolean;
-    size?: number;
-    total?: number;
+    size?: string;
+    total?: string;
+  };
+
+  type testDownloadFileUsingGETParams = {
+    /** filepath */
+    filepath?: string;
   };
 
   type uploadFileUsingPOSTParams = {
@@ -372,7 +304,7 @@ declare namespace API {
 
   type User = {
     createTime?: string;
-    id?: number;
+    id?: string;
     isDelete?: number;
     updateTime?: string;
     userAccount?: string;
@@ -397,7 +329,7 @@ declare namespace API {
 
   type UserQueryRequest = {
     current?: number;
-    id?: number;
+    id?: string;
     pageSize?: number;
     sortField?: string;
     sortOrder?: string;
@@ -419,7 +351,7 @@ declare namespace API {
   };
 
   type UserUpdateRequest = {
-    id?: number;
+    id?: string;
     userAvatar?: string;
     userName?: string;
     userProfile?: string;
@@ -428,14 +360,10 @@ declare namespace API {
 
   type UserVO = {
     createTime?: string;
-    id?: number;
+    id?: string;
     userAvatar?: string;
     userName?: string;
     userProfile?: string;
     userRole?: string;
-  };
-
-  type View = {
-    contentType?: string;
   };
 }

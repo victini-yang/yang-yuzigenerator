@@ -8,7 +8,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import {Button, message, Select, Space, Tag, Typography} from 'antd';
+import { Button, message, Select, Space, Tag, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
 
 /**

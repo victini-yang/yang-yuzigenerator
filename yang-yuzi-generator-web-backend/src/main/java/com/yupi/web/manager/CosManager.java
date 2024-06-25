@@ -1,8 +1,13 @@
 package com.yupi.web.manager;
 
 import com.qcloud.cos.COSClient;
+import com.qcloud.cos.exception.CosClientException;
+import com.qcloud.cos.exception.CosServiceException;
+import com.qcloud.cos.model.COSObject;
+import com.qcloud.cos.model.GetObjectRequest;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
+import com.qcloud.cos.transfer.Download;
 import com.yupi.web.config.CosClientConfig;
 import org.springframework.stereotype.Component;
 
@@ -48,5 +53,18 @@ public class CosManager {
         PutObjectRequest putObjectRequest = new PutObjectRequest(cosClientConfig.getBucket(), key,
                 file);
         return cosClient.putObject(putObjectRequest);
+    }
+
+    /**
+     * 下载对象
+     * @param key 唯一键
+     * @return
+     */
+    public COSObject getObject(String key) {
+
+        GetObjectRequest getObjectRequest = new GetObjectRequest(cosClientConfig.getBucket(), key);
+        // 返回一个异步结果 Download, 可同步的调用 waitForCompletion 等待下载结束, 成功返回 void, 失败抛出异常
+        return cosClient.getObject(getObjectRequest);
+
     }
 }

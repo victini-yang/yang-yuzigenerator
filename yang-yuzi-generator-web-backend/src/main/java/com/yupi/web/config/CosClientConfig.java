@@ -10,6 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
 /**
  * 腾讯云对象存储客户端
  *
@@ -40,6 +41,14 @@ public class CosClientConfig {
      * 桶名
      */
     private String bucket;
+
+    @PostConstruct
+    public void init() {
+        System.out.println("COS Client Configuration - AccessKey: " + accessKey);
+        System.out.println("COS Client Configuration - SecretKey: " + secretKey);
+        System.out.println("COS Client Configuration - Region: " + region);
+        System.out.println("COS Client Configuration - Bucket: " + bucket);
+    }
 
     @Bean
     public COSClient cosClient() {

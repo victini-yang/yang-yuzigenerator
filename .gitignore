@@ -4,6 +4,7 @@ generated
 .idea
 target
 yang-yuzigenerator.iml
+application-local.yml
 
 ### IntelliJ IDEA ###
 out/

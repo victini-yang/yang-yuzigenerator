@@ -3,6 +3,7 @@ package com.yupi.maker.generator.main;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.ZipUtil;
 import com.yupi.maker.generator.JarGenerator;
 import com.yupi.maker.generator.ScriptGenerator;
 import com.yupi.maker.generator.file.DynamicFileGenerator;
@@ -59,7 +60,7 @@ public class GenerateTemplate {
         return sourceCopyDestPath;
     }
 
-    protected void buildDist(String outputPath, String sourceCopyDestPath,String jarPath, String shellOutputFilePath) {
+    protected String buildDist(String outputPath, String sourceCopyDestPath,String jarPath, String shellOutputFilePath) {
         //        生成精简版本的程序
 
         String distOutputPath = outputPath + "-dist";
@@ -81,6 +82,8 @@ public class GenerateTemplate {
 
 //        拷贝源模板文件
         FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
+
+        return distOutputPath;
     }
 
 
@@ -174,6 +177,17 @@ public class GenerateTemplate {
         outputFilePath = outputPath + "/README.md";
         DynamicFileGenerator.doGenerator(inputFilePath, outputFilePath, meta);
 
+    }
+
+    /**
+     * 制作压缩包
+     * @param outputPath
+     * @return
+     */
+    protected String buildZip(String outputPath){
+        String zipPath = outputPath + ".zip";
+        ZipUtil.zip(outputPath , zipPath);
+        return zipPath;
     }
 
 
