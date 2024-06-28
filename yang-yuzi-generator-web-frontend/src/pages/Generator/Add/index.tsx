@@ -1,6 +1,7 @@
 import FileUploader from '@/components/FileUploader';
 import PictureUploader from '@/components/PictureUploader';
 import { COS_HOST } from '@/constants';
+import ModelConfigForm from '@/pages/Generator/Add/components/ModelConfigForm';
 import {
   addGeneratorUsingPost,
   editGeneratorUsingPost,
@@ -21,19 +22,18 @@ import { message, UploadFile } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
 /**
- * 生成器创建页面
+ * 创建生成器页面
  * @constructor
  */
 const GeneratorAddPage: React.FC = () => {
-  const formRef = useRef<ProFormInstance>();
-
   const [searchParams] = useSearchParams();
   // 要修改生成器的id
   const id = searchParams.get('id');
   // 要修改的旧数据 编辑类型
   const [oldData, setOldData] = useState<API.GeneratorEditRequest>();
 
-  // 根据id获取后端请求数据
+  const formRef = useRef<ProFormInstance>();
+
   /**
    * 加载数据
    */
@@ -46,6 +46,7 @@ const GeneratorAddPage: React.FC = () => {
         // @ts-ignore
         id,
       });
+
       //   前端接收的是文件对象类型，后端返回的distPath是String，提交的时候文件对象转成url，回填的时候url转成文件对象
       if (res.data) {
         const { distPath } = res.data ?? {};
@@ -64,12 +65,11 @@ const GeneratorAddPage: React.FC = () => {
         // 异步
         setOldData(res.data);
       }
-    } catch (e: any) {
-      message.error("加载数据失败" + e.message);
+    } catch (error: any) {
+      message.error('加载数据失败，' + error.message);
     }
   };
 
-  // 当加载页面的时候，当id改变的时候，加载数据
   useEffect(() => {
     if (id) {
       loadData();
@@ -78,23 +78,23 @@ const GeneratorAddPage: React.FC = () => {
 
   /**
    * 创建
+   * @param values
    */
   const doAdd = async (values: API.GeneratorAddRequest) => {
-    //   调用接口的地方尽量都加try catch 调用上传代码生成器的接口
     try {
       const res = await addGeneratorUsingPost(values);
-      // 如果存在结果
       if (res.data) {
         message.success('创建成功');
         history.push(`/generator/detail/${res.data}`);
       }
-    } catch (e: any) {
-      message.error('创建失败' + e.message);
+    } catch (error: any) {
+      message.error('创建失败，' + error.message);
     }
   };
 
   /**
    * 更新
+   * @param values
    */
   const doUpdate = async (values: API.GeneratorEditRequest) => {
     //   调用接口的地方尽量都加try catch 调用上传代码生成器的接口
@@ -105,8 +105,8 @@ const GeneratorAddPage: React.FC = () => {
         message.success('更新成功');
         history.push(`/generator/detail/${id}`);
       }
-    } catch (e: any) {
-      message.error('更新失败' + e.message);
+    } catch (error: any) {
+      message.error('更新失败，' + error.message);
     }
   };
 
@@ -129,15 +129,15 @@ const GeneratorAddPage: React.FC = () => {
     }
 
     //   调用接口的地方尽量都加try catch 调用上传代码生成器的接口
-  //   如果id存在就表示要更新
-    if (id){
+    //   如果id存在就表示要更新
+    if (id) {
       await doUpdate({
         // @ts-ignore
         id,
         ...values,
       });
-    }else {
-      await doAdd(values)
+    } else {
+      await doAdd(values);
     }
   };
 
@@ -167,8 +167,15 @@ const GeneratorAddPage: React.FC = () => {
           <StepsForm.StepForm name="fileConfig" title="文件配置">
             {/* todo 待补充 */}
           </StepsForm.StepForm>
-          <StepsForm.StepForm name="modelConfig" title="模型配置">
-            {/* todo 待补充 */}
+          <StepsForm.StepForm
+            name="modelConfig"
+            title="模型配置"
+            onFinish={async (values) => {
+              console.log(values);
+              return true;
+            }}
+          >
+            <ModelConfigForm formRef={formRef} oldData={oldData} />
           </StepsForm.StepForm>
           <StepsForm.StepForm name="dist" title="生成器文件">
             <ProFormItem label="产物包" name="distPath">

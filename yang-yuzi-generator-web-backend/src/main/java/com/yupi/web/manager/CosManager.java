@@ -8,11 +8,15 @@ import com.qcloud.cos.model.GetObjectRequest;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.transfer.Download;
+import com.qcloud.cos.transfer.TransferManager;
 import com.yupi.web.config.CosClientConfig;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Cos 对象存储操作
@@ -28,6 +32,21 @@ public class CosManager {
 
     @Resource
     private COSClient cosClient;
+
+//    复用下载对象
+    private TransferManager transferManager;
+
+//    bean加载后执行
+    @PostConstruct
+    public void init(){
+        System.out.println("Bean 初始化成功");
+        // 自定义线程池大小，建议在客户端与 COS 网络充足（例如使用腾讯云的 CVM，同地域上传 COS）的情况下，设置成16或32即可，可较充分的利用网络资源
+        // 对于使用公网传输且网络带宽质量不高的情况，建议减小该值，避免因网速过慢，造成请求超时。
+        ExecutorService threadPool = Executors.newFixedThreadPool(32);
+
+        // 使用高级接口必须先保证本进程存在一个 TransferManager 实例，如果没有则创建
+        transferManager = new TransferManager(cosClient, threadPool);
+    }
 
     /**
      * 上传对象
@@ -66,5 +85,22 @@ public class CosManager {
         // 返回一个异步结果 Download, 可同步的调用 waitForCompletion 等待下载结束, 成功返回 void, 失败抛出异常
         return cosClient.getObject(getObjectRequest);
 
+    }
+
+    /**
+     * 下载对象到本地文件 看官方文档
+     * @param key
+     * @param localFilePath
+     * @return
+     * @throws InterruptedException
+     */
+    public Download download(String key, String localFilePath) throws InterruptedException {
+        File downloadFile = new File(localFilePath);
+        GetObjectRequest getObjectRequest = new GetObjectRequest(cosClientConfig.getBucket(), key);
+
+        // 返回一个异步结果 Download, 可同步的调用 waitForCompletion 等待下载结束, 成功返回 void, 失败抛出异常
+        Download download = transferManager.download(getObjectRequest, downloadFile);
+        download.waitForCompletion();
+        return download;
     }
 }
