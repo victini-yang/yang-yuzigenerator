@@ -31,6 +31,18 @@ public class GenerateTemplate {
         projectPath = projectPath.replace("\\", "/");
         String outputPath = projectPath + "/generated/" + meta.getName();
 
+        doGenerate(meta, outputPath);
+    }
+
+    /**
+     * 生成
+     * @param meta
+     * @param outputPath
+     * @throws TemplateException
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public void doGenerate(Meta meta , String outputPath) throws TemplateException, IOException, InterruptedException {
 
         if (!FileUtil.exist(outputPath)) {
             FileUtil.mkdir(outputPath);
@@ -110,8 +122,7 @@ public class GenerateTemplate {
      */
     protected void generateCode(Meta meta, String outputPath) throws IOException, TemplateException {
         //        读取resource目录
-        ClassPathResource classPathResource = new ClassPathResource("");
-        String inputResourcePath = classPathResource.getAbsolutePath();
+        String inputResourcePath = "";
 
 //        java包的基础路径
         String outputBasePackage = meta.getBasePackage();

@@ -1,8 +1,8 @@
-import { updateGeneratorUsingPost } from '@/services/backend/generatorController';
 import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { message, Modal } from 'antd';
 import React from 'react';
+import {updateGeneratorUsingPost} from "@/services/backend/generatorController";
 
 interface Props {
   oldData?: API.Generator;
@@ -18,6 +18,8 @@ interface Props {
  * @param fields
  */
 const handleUpdate = async (fields: API.GeneratorUpdateRequest) => {
+  fields.fileConfig = JSON.parse((fields.fileConfig || '{}') as string);
+  fields.modelConfig = JSON.parse((fields.modelConfig || '{}') as string);
   const hide = message.loading('正在更新');
   try {
     await updateGeneratorUsingPost(fields);

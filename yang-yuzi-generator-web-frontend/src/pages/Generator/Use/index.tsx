@@ -1,7 +1,4 @@
-import {
-  getGeneratorVoByIdUsingGet,
-  useGeneratorUsingPost,
-} from '@/services/backend/generatorController';
+
 import { Link, useModel, useParams } from '@@/exports';
 import { DownloadOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
@@ -21,6 +18,7 @@ import {
 } from 'antd';
 import { saveAs } from 'file-saver';
 import React, { useEffect, useState } from 'react';
+import {getGeneratorVoByIdUsingGet, useGeneratorUsingPost} from "@/services/backend/generatorController";
 
 /**
  * 生成器使用
@@ -163,7 +161,8 @@ const GeneratorUsePage: React.FC = () => {
 
                 return (
                   // 数组下渲染元素，最外层加key防止冲突
-                  <Form.Item key={index} label={model.fieldName} name={model.fieldName}>
+                  // eslint-disable-next-line react/jsx-key
+                  <Form.Item label={model.fieldName} name={model.fieldName}>
                     <Input placeholder={model.description} />
                   </Form.Item>
                 );

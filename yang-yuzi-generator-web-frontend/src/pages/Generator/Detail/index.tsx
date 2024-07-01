@@ -1,10 +1,6 @@
 import AuthorInfo from '@/pages/Generator/Detail/components/AuthorInfo';
 import FileConfig from '@/pages/Generator/Detail/components/FileConfig';
 import ModelConfig from '@/pages/Generator/Detail/components/ModelConfig';
-import {
-  downloadGeneratorByIdUsingGet,
-  getGeneratorVoByIdUsingGet,
-} from '@/services/backend/generatorController';
 import { Link, useModel, useParams } from '@@/exports';
 import { DownloadOutlined, EditOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
@@ -12,6 +8,7 @@ import { Button, Card, Col, Image, message, Row, Space, Tabs, Tag, Typography } 
 import { saveAs } from 'file-saver';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import {downloadGeneratorByIdUsingGet, getGeneratorVoByIdUsingGet} from "@/services/backend/generatorController";
 
 /**
  * 生成器详情页
@@ -81,36 +78,36 @@ const GeneratorDetailPage: React.FC = () => {
    */
     // 如果代码生成器存在并且存在当前登录用户
   const downloadButton = data.distPath && currentUser && (
-      <Button
-        icon={<DownloadOutlined />}
-        onClick={async () => {
-          // 转换blob流，同时下载npm i --save-dev @types/file-saver  npm install file-saver
-          const blob = await downloadGeneratorByIdUsingGet(
-            {
-              id: data.id,
-            },
-            {
-              responseType: 'blob',
-            },
-          );
-          // 使用 file-saver 来保存文件
-          const fullPath = data.distPath || '';
-          saveAs(blob, fullPath.substring(fullPath.lastIndexOf('/') + 1));
-        }}
-      >
-        下载
-      </Button>
-    );
+    <Button
+      icon={<DownloadOutlined />}
+      onClick={async () => {
+        // 转换blob流，同时下载npm i --save-dev @types/file-saver  npm install file-saver
+        const blob = await downloadGeneratorByIdUsingGet(
+          {
+            id: data.id,
+          },
+          {
+            responseType: 'blob',
+          },
+        );
+        // 使用 file-saver 来保存文件
+        const fullPath = data.distPath || '';
+        saveAs(blob, fullPath.substring(fullPath.lastIndexOf('/') + 1));
+      }}
+    >
+      下载
+    </Button>
+  );
 
   /**
    * 编辑按钮
    */
     //   用户点击编辑要跳转到编辑页面
   const editButton = my && (
-      <Link to={`/generator/update?id=${data.id}`}>
-        <Button icon={<EditOutlined />}>编辑</Button>
-      </Link>
-    );
+    <Link to={`/generator/update?id=${data.id}`}>
+      <Button icon={<EditOutlined />}>编辑</Button>
+    </Link>
+  );
 
   return (
     <PageContainer title={<></>} loading={loading}>

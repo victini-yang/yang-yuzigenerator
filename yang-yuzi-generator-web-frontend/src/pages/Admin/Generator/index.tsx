@@ -1,15 +1,12 @@
 import CreateModal from '@/pages/Admin/Generator/components/CreateModal';
 import UpdateModal from '@/pages/Admin/Generator/components/UpdateModal';
-import {
-  deleteGeneratorUsingPost,
-  listGeneratorByPageUsingPost,
-} from '@/services/backend/generatorController';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { PageContainer, ProTable } from '@ant-design/pro-components';
+import { ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Button, message, Select, Space, Tag, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
+import {deleteGeneratorUsingPost, listGeneratorByPageUsingPost} from "@/services/backend/generatorController";
 
 /**
  * 代码生成器管理页面
@@ -63,7 +60,6 @@ const GeneratorAdminPage: React.FC = () => {
       dataIndex: 'name',
       valueType: 'text',
     },
-    //textarea多行文本
     {
       title: '描述',
       dataIndex: 'description',
@@ -92,22 +88,23 @@ const GeneratorAdminPage: React.FC = () => {
       // 自己输入标签内容，用schema接收，渲染
       // antd框架提供 fieldProps 将它添加到自己的属性中
       // 选择输入模型为标签 fieldProps填充
-      renderFormItem(schema){
-        const {fieldProps} = schema;
+      renderFormItem(schema) {
+        const { fieldProps } = schema;
         // @ts-ignore
-        return <Select mode="tags" {...fieldProps} />
+        return <Select mode="tags" {...fieldProps} />;
       },
       // 标签 jsonString =》标签格式
       // 从渲染中取标签值
       // 转成数组，再用map遍历，转成Tag标签，加指定key唯一标识
-      render(_,record){
-        if(!record.tags){
-          return <></>
+      render(_, record) {
+        if (!record.tags) {
+          return <></>;
         }
+
         return JSON.parse(record.tags).map((tag: string) => {
           return <Tag key={tag}>{tag}</Tag>;
-        })
-      }
+        });
+      },
     },
     {
       title: '图片',
@@ -139,7 +136,7 @@ const GeneratorAdminPage: React.FC = () => {
       valueEnum: {
         0: {
           text: '默认',
-        }
+        },
       },
     },
     {
@@ -184,10 +181,13 @@ const GeneratorAdminPage: React.FC = () => {
       ),
     },
   ];
+
   return (
     // 表格改为适应宽度，而不是定宽，增加标题
     <div className="generator-admin-page">
-      <Typography.Title level={4} style={{ marginBottom: 16 }}>生成器管理</Typography.Title>
+      <Typography.Title level={4} style={{ marginBottom: 16 }}>
+        生成器管理
+      </Typography.Title>
       <ProTable<API.Generator>
         headerTitle={'查询表格'}
         actionRef={actionRef}
@@ -226,6 +226,7 @@ const GeneratorAdminPage: React.FC = () => {
         columns={columns}
       />
       <CreateModal
+        //@ts-ignore
         visible={createModalVisible}
         columns={columns}
         onSubmit={() => {

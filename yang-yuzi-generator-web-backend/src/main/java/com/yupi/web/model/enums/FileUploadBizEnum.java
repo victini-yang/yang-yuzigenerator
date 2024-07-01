@@ -13,12 +13,15 @@ import java.util.stream.Collectors;
  * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 public enum FileUploadBizEnum {
+//    便于目录管理
 
     USER_AVATAR("用户头像", "user_avatar"),
 
     GENERATOR_PICTURE("生成器图片","generator_picture"),
 
-    GENERATOR_DIST("生成器产物包","generator_dist");
+    GENERATOR_DIST("生成器产物包","generator_dist"),
+
+    GENERATOR_MAKE_TEMPLATE("生成器模板制作文件","generator_make_template");
 
     private final String text;
 
